@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -15,37 +15,40 @@ model item{
   id Int @id @default(autoincrement())
   name String @db.VarChar(255)
   category String @db.VarChar(255)
-  price Int @db.Int
-  qty Int @db.Int
+  price Int @db.Integer
+  qty Int @db.Integer
+  modified DateTime @db.Timestamp()
+  isDeleted Boolean @db.Boolean @default(false)
 
   transaction_details transaction_detail[]
-  inventories inventory[]
+  carts cart[]
 }
 
 model transaction{ 
   id Int @id @default(autoincrement())
-  date DateTime @db.DateTime()
+  date DateTime @db.Timestamp()
+  totalPrice Int @db.Integer
 
   transaction_details transaction_detail[]
 }
 
 model transaction_detail{
-  item item @relation(fields: [item_id], references: [id])
-  item_id Int
-  transaction transaction @relation(fields: [transaction_id], references: [id])
-  transaction_id Int
+  id Int @id @default(autoincrement())
+  item item @relation(fields: [item_id], references: [id], onDelete:Cascade)
+  item_id Int @db.Integer 
+  transaction transaction @relation(fields: [transaction_id], references: [id], onDelete: Cascade)
+  transaction_id Int @db.Integer
 
-  qty Int @db.Int
+  qty Int @db.Integer
+  current_price Int @db.Integer
   
-  @@id([item_id, transaction_id])
+  // @@id([transaction_id, item_id])
 }
 
-model inventory{
+model cart{
   id Int @id @default(autoincrement())
-  date DateTime @db.DateTime()
+  item item @relation(fields: [item_id], references: [id], onDelete: Cascade)
+  item_id Int @db.Integer
 
-  item item @relation(fields: [item_id], references: [id])
-  item_id Int
-
-  qty Int @db.Int
+  qty Int @db.Integer
 }
