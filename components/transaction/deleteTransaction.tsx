@@ -57,7 +57,7 @@ const DeleteInventory = ({transaction}: {transaction: Transaction}) => {
                         Transaction date: &nbsp;
                      </text>
                      <text>
-                        {String(transaction.date)}
+                        {String(transaction.transaction_date)}
                      </text>
                   </div>
 
@@ -66,7 +66,7 @@ const DeleteInventory = ({transaction}: {transaction: Transaction}) => {
                         Total price: &nbsp;
                      </text>
                      <text>
-                        {transaction.totalPrice}
+                        {transaction.total_price}
                      </text>
                   </div>
 

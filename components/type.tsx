@@ -14,13 +14,13 @@ export type Item = {
     price: number;
     qty: number;
     modified: Date;
-    isDeleted: boolean;
+    delete_item: boolean;
 }
 
 export type Transaction={
     id: number;
-    date: Date;
-    totalPrice: number;
+    transaction_date: Date;
+    total_price: number;
     transaction_details:{
         id: number;
         item_id: number;

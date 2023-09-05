@@ -164,7 +164,7 @@ const prisma = new PrismaClient();
 export async function getServerSideProps() {
     const items = await prisma.item.findMany({
         where:{
-            isDeleted: false
+            delete_item: false
         },orderBy:{
             name: "asc"
         }

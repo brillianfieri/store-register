@@ -8,6 +8,7 @@
   --background-end-rgb: 255, 255, 255;
 }
 
+/* Chart.defaults.global.defaultFontColor = "#fff"; */
 @media (prefers-color-scheme: dark) {
   :root {
     --background-rgb: 8, 51, 6;

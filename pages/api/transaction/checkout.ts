@@ -30,8 +30,8 @@ export default async function handler(
         // Create new transaction
         const newTransaction = await prisma.transaction.create({
             data:{
-                date: new Date(),
-                totalPrice: price
+                transaction_date: new Date(),
+                total_price: price
             }
         })
 

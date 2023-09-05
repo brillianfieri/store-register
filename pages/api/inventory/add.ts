@@ -42,7 +42,7 @@ export default async function handler(
                     price: data.price,
                     qty: data.qty,
                     modified: new Date(),
-                    isDeleted: false
+                    delete_item: false
                 }
             })
         }

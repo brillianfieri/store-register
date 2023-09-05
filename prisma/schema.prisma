@@ -18,7 +18,7 @@ model item{
   price Int @db.Integer
   qty Int @db.Integer
   modified DateTime @db.Timestamp()
-  isDeleted Boolean @db.Boolean @default(false)
+  delete_item Boolean @db.Boolean @default(false)
 
   transaction_details transaction_detail[]
   carts cart[]
@@ -26,8 +26,8 @@ model item{
 
 model transaction{ 
   id Int @id @default(autoincrement())
-  date DateTime @db.Timestamp()
-  totalPrice Int @db.Integer
+  transaction_date DateTime @db.Timestamp()
+  total_price Int @db.Integer
 
   transaction_details transaction_detail[]
 }

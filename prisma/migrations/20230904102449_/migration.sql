@@ -6,7 +6,7 @@ CREATE TABLE "item" (
     "price" INTEGER NOT NULL,
     "qty" INTEGER NOT NULL,
     "modified" TIMESTAMP NOT NULL,
-    "isDeleted" BOOLEAN NOT NULL DEFAULT false,
+    "delete_item" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "item_pkey" PRIMARY KEY ("id")
 );
@@ -14,8 +14,8 @@ CREATE TABLE "item" (
 -- CreateTable
 CREATE TABLE "transaction" (
     "id" SERIAL NOT NULL,
-    "date" TIMESTAMP NOT NULL,
-    "totalPrice" INTEGER NOT NULL,
+    "transaction_date" TIMESTAMP NOT NULL,
+    "total_price" INTEGER NOT NULL,
 
     CONSTRAINT "transaction_pkey" PRIMARY KEY ("id")
 );

@@ -46,10 +46,10 @@ export default function inventoryPage({transactions}: InferGetServerSidePropsTyp
                                         {transaction.id}
                                     </th>
                                     <td className="px-6 py-4">
-                                        {transaction.date}
+                                        {transaction.transaction_date}
                                     </td>
                                     <td className="px-6 py-4">
-                                        {transaction.totalPrice.toLocaleString()}
+                                        {transaction.total_price.toLocaleString()}
                                     </td>
                                     <td className="px-6 py-4">
                                         <DeleteTransaction transaction={transaction}/>
@@ -85,13 +85,13 @@ export async function getServerSideProps() {
             }
         }
         ,orderBy:{
-            date: "desc"
+            transaction_date: "desc"
         }
     });
 
     transactions.map((transaction) => {
         // item.modified.get
-        transaction.date = transaction.date.toLocaleString();
+        transaction.transaction_date = transaction.transaction_date.toLocaleString();
     });
 
     return {

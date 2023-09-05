@@ -67,7 +67,7 @@ export default function inventoryPage({items}: InferGetServerSidePropsType<typeo
                         <tbody>
                             {items.filter((item) => {
                                 
-                                if(item.isDeleted == false){
+                                if(item.delete_item == false){
                                     if(search.toLowerCase() === ''){
                                         return item;
                                     }else if(item.name.toLowerCase().includes(search) || item.category.toLowerCase().includes(search)){
@@ -120,7 +120,7 @@ const prisma = new PrismaClient();
 export async function getServerSideProps() {
     const items = await prisma.item.findMany({
         where:{
-            isDeleted: false
+            delete_item: false
         },orderBy:{
             name: "asc"
         }

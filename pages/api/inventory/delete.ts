@@ -22,7 +22,7 @@ export default async function handler(
                 
             },
             data: {
-                isDeleted: true
+                delete_item: true
             },
         })
         return res.status(200).send(newItem);
