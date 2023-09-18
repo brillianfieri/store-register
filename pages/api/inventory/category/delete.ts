@@ -9,17 +9,14 @@ export default async function handler(
     const prisma = new PrismaClient();
     if(req.method === 'POST'){
         const { body: data } = req;
-        const newItem = await prisma.item.update({
+
+        const newItem = await prisma.category.update({
             where:{
                 id: data.id
                 
             },
             data: {
-                name: data.name,
-                category_id: data.category_id,
-                price: data.price,
-                qty: data.qty,
-                modified: new Date()
+                delete_category: true
             },
         })
         return res.status(200).send(newItem);

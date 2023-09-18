@@ -5,9 +5,9 @@ export const customStyles = {
      padding:'none'
   },
   content: {
-     top: '20%',
-     left: '20%',
-     right: '20%',
+     top: '15%',
+     left: '15%',
+     right: '15%',
      bottom: 'auto',
      border:'none',
      padding:'none',

@@ -10,7 +10,10 @@ export type Cart = {
 export type Item = {
     id: number;
     name: string;
-    category: string;
+    category:{
+        id:number,
+        name: string;
+    }
     price: number;
     qty: number;
     modified: Date;
@@ -33,4 +36,10 @@ export type Transaction={
         }
     }[]
 
+}
+
+export type Category={
+    id: number;
+    name: string;
+    delete_category: boolean;
 }

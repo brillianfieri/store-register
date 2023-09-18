@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from '../../components/layout'
 import AddInventory from '../../components/inventory/addInventory'
 import EditInventory from '../../components/inventory/editInventory'
 import DeleteInventory from "@/components/inventory/deleteInventory";
+import IndexCategory from '../../components/inventory/category'
 import { PrismaClient } from "@prisma/client";
 import {InferGetServerSidePropsType } from "next";
 
-export default function inventoryPage({items}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function inventoryPage({items, categories}: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [search, setSearch] = useState('')
 
     const onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,8 +22,9 @@ export default function inventoryPage({items}: InferGetServerSidePropsType<typeo
                 <h1 className="text-2xl font-bold dark:text-white">Inventory</h1>
             </div>
 
-            <div className="px-5 pt-1.5">
-                <AddInventory items = {items}/>
+            <div className="px-5 pt-1.5 flex justify">
+                <AddInventory items = {items} categories = {categories}/>
+                <IndexCategory categories={categories}/>
             </div>
 
             <div className={"pt-1 px-5 pb-2"}>
@@ -70,7 +72,7 @@ export default function inventoryPage({items}: InferGetServerSidePropsType<typeo
                                 if(item.delete_item == false){
                                     if(search.toLowerCase() === ''){
                                         return item;
-                                    }else if(item.name.toLowerCase().includes(search) || item.category.toLowerCase().includes(search)){
+                                    }else if(item.name.toLowerCase().includes(search) || item.category.name.toLowerCase().includes(search)){
                                         return item;
                                     }
                                 }
@@ -88,7 +90,7 @@ export default function inventoryPage({items}: InferGetServerSidePropsType<typeo
                                         {item.name}
                                     </th>
                                     <td className={'px-6 py-4'}>
-                                        {item.category}
+                                        {item.category.name}
                                     </td>
                                     <td className="px-6 py-4">
                                         {item.price.toLocaleString()}
@@ -100,7 +102,7 @@ export default function inventoryPage({items}: InferGetServerSidePropsType<typeo
                                         {item.modified}
                                     </td>
                                     <td className="px-6 py-4">
-                                        <EditInventory item = {item} items = {items} />
+                                        <EditInventory item = {item} items = {items} categories={categories}/>
                                         <DeleteInventory item = {item} />
                                     </td>
                                 </tr>
@@ -121,6 +123,22 @@ export async function getServerSideProps() {
     const items = await prisma.item.findMany({
         where:{
             delete_item: false
+        },
+        include:{
+            category:{
+                select:{
+                    id:true,
+                    name: true,
+                }
+            }
+        },orderBy:{
+            name: "asc"
+        }
+    });
+
+    const categories = await prisma.category.findMany({
+        where:{
+            delete_category:false
         },orderBy:{
             name: "asc"
         }
@@ -135,6 +153,7 @@ export async function getServerSideProps() {
     return {
         props: {
         items: items,
+        categories: categories,
         },
     };
 }

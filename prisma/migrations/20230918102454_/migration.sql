@@ -2,7 +2,7 @@
 CREATE TABLE "item" (
     "id" SERIAL NOT NULL,
     "name" VARCHAR(255) NOT NULL,
-    "category" VARCHAR(255) NOT NULL,
+    "category_id" INTEGER NOT NULL,
     "price" INTEGER NOT NULL,
     "qty" INTEGER NOT NULL,
     "modified" TIMESTAMP NOT NULL,
@@ -39,6 +39,18 @@ CREATE TABLE "cart" (
 
     CONSTRAINT "cart_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateTable
+CREATE TABLE "category" (
+    "id" SERIAL NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "delete_category" BOOLEAN NOT NULL DEFAULT false,
+
+    CONSTRAINT "category_pkey" PRIMARY KEY ("id")
+);
+
+-- AddForeignKey
+ALTER TABLE "item" ADD CONSTRAINT "item_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "transaction_detail" ADD CONSTRAINT "transaction_detail_item_id_fkey" FOREIGN KEY ("item_id") REFERENCES "item"("id") ON DELETE CASCADE ON UPDATE CASCADE;

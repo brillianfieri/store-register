@@ -14,7 +14,8 @@ datasource db {
 model item{
   id Int @id @default(autoincrement())
   name String @db.VarChar(255)
-  category String @db.VarChar(255)
+  category category @relation(fields: [category_id], references: [id], onDelete: Cascade)
+  category_id Int @db.Integer
   price Int @db.Integer
   qty Int @db.Integer
   modified DateTime @db.Timestamp()
@@ -51,4 +52,13 @@ model cart{
   item_id Int @db.Integer
 
   qty Int @db.Integer
+}
+
+model category{
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(255)
+  delete_category Boolean @db.Boolean @default(false)
+
+  items item[]
+
 }

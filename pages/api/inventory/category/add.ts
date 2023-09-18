@@ -11,7 +11,7 @@ export default async function handler(
     // Check if the item exists but is hidden (deleted).
     if(req.method === 'POST'){
         const { body: data } = req;
-        const items = await prisma.item.findFirst({
+        const items = await prisma.category.findFirst({
             where:{
                 name: {
                     equals: data.name,
@@ -24,29 +24,21 @@ export default async function handler(
         let newItem;
 
         if(!items){
-            // Item does not exist.
-            newItem = await prisma.item.create({
+            // Category does not exist.
+            newItem = await prisma.category.create({
                 data:{
                     name: data.name,
-                    category_id: data.category_id,
-                    price: data.price,
-                    qty: data.qty,
-                    modified: new Date()
                 }
             })
         }else{
-            // Item exists, proceed to unhide the item and update the data.
-            newItem = await prisma.item.update({
+            // Category exists, proceed to unhide the category and update the data.
+            newItem = await prisma.category.update({
                 where:{
                     id: items.id
                 },
                 data:{
                     name: data.name,
-                    category_id: data.category_id,
-                    price: data.price,
-                    qty: data.qty,
-                    modified: new Date(),
-                    delete_item: false
+                    delete_category: false
                 }
             })
         }

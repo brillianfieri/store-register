@@ -84,7 +84,7 @@ export default function inventoryPage({items, carts}: InferGetServerSidePropsTyp
                                         {item.name}
                                     </th>
                                     <td className="px-6 py-4">
-                                        {item.category}
+                                        {item.category.name}
                                     </td>
                                     <td className="px-6 py-4">
                                         {item.price.toLocaleString()}
@@ -165,6 +165,13 @@ export async function getServerSideProps() {
     const items = await prisma.item.findMany({
         where:{
             delete_item: false
+        },include:{
+            category:{
+                select:{
+                    id:true,
+                    name: true,
+                }
+            }
         },orderBy:{
             name: "asc"
         }

@@ -3,13 +3,13 @@
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import Modal from 'react-modal'
-import {Item} from '../type'
+import {Category, Item} from '../type'
 import {customStyles} from '../../styles/modal.css.js'
 
-const EditInventory = ({item, items}: {item: Item, items:Item[]}) => {
+const EditInventory = ({item, items, categories}: {item: Item, items:Item[], categories:Category[]}) => {
    const [itemId, setItemId] = useState(item.id)
    const [itemName, setItemName] = useState(item.name)
-   const [itemCategory, setItemCategory] = useState(item.category)
+   const [itemCategory, setItemCategory] = useState(item.category.id)
    const [itemPrice, setItemPrice] = useState(item.price)
    const [itemQty, setItemQty] = useState(item.qty)
 
@@ -34,7 +34,6 @@ const EditInventory = ({item, items}: {item: Item, items:Item[]}) => {
 
       if(isNotUnique){
          // The new item name is not unique.
-         alert("The name is already exist!")
          return false
       }else{
          // Update the item data.
@@ -46,7 +45,7 @@ const EditInventory = ({item, items}: {item: Item, items:Item[]}) => {
             body: JSON.stringify({
              id: itemId,
              name: itemName,
-             category: itemCategory,
+             category_id: parseInt(itemCategory),
              price: parseInt(itemPrice),
              qty: parseInt(itemQty)
           }),
@@ -79,8 +78,9 @@ const EditInventory = ({item, items}: {item: Item, items:Item[]}) => {
                 <div className="pb-4">
                     <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select category</label>
                     <select id="category" value={itemCategory}  onChange={(e) => setItemCategory(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="Food">Food</option>
-                    <option value="Drink">Drink</option>
+                    {categories.map((category: any) =>(
+                        <option value={category.id}>{category.name}</option>
+                     ))}
                     </select>
                 </div>
                 
