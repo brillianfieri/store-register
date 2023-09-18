@@ -11,12 +11,14 @@ const DeleteCart = ({cart}: {cart: Cart}) => {
 
    const deleteClicked = async (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault()
+      // Display a modal to confirm the action.
       setIsOpen(true)
    }
 
    const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
       event.preventDefault()
 
+      // Delete all the items in the cart.
       const response = await fetch('/api/cart/delete', {
          method: 'POST',
          headers: {

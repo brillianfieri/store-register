@@ -13,6 +13,7 @@ const AddInventory = ({items}: {items: Item[]}) => {
    const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
       event.preventDefault()
 
+      // Check if the item is already exist.
       let isNotUnique = items.find((item, idx) => {
          if (item.name.toLowerCase() == event.target.floating_name.value.toLowerCase()) {
             return true;
@@ -20,9 +21,11 @@ const AddInventory = ({items}: {items: Item[]}) => {
       });
 
       if(isNotUnique){
+         // Display an 'Item already exists' alert.
          alert("The name is already exist!")
          return false
       }else{
+         // Add the item to inventory.
          const response = await fetch('/api/inventory/add', {
             method: 'POST',
             headers: {

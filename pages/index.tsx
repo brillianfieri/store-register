@@ -7,7 +7,7 @@ import Chart3 from "../components/chart/chart3";
 import Chart4 from "../components/chart/chart4";
 
 
-export default function inventoryPage() {
+export default function dashboard() {
     const currMonth = new Date().toLocaleString('default', {month: 'long'})
     const currYear = parseInt(new Date().toLocaleString('default', {year: 'numeric'}))
 
@@ -60,12 +60,6 @@ export default function inventoryPage() {
                     </div>
                 </div>
             </div>
-            {/* <div className="grid grid-cols-6 gap-4">
-            <div className="col-start-2 col-span-4 bg-red-700">01</div>
-            <div className="col-start-1 col-end-4 bg-red-700">02</div>
-            <div className="col-start-4 col-end-7 bg-red-700">03</div> */}
-            {/* <div className="col-start-5 col-end-6 bg-red-700">04</div> */}
-            {/* </div> */}
             </>
             
         </Layout>

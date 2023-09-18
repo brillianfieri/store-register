@@ -13,12 +13,14 @@ const DeleteInventory = ({item}: {item: Item}) => {
 
    const deleteClicked = async (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault()
+      // Display a modal to confirm the action.
       setIsOpen(true)
    }
 
    const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
       event.preventDefault()
 
+      // Delete the item from inventory.
       const response = await fetch('/api/inventory/delete', {
          method: 'POST',
          headers: {

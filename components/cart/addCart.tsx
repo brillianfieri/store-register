@@ -9,8 +9,11 @@ const AddCart = ({item, carts}: {item: Item, carts:Cart[]}) => {
     
     const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault()
+
+        // Get the new inventory qty for the selected item.
         const newItemQty = item.qty-parseInt(event.target.cartQty.value)
         
+        // Check if the selected item is already in the cart.
         carts.filter(function (carts_: any) {
             if(item.id == carts_.item_id){
                 isExist = true;
@@ -19,6 +22,7 @@ const AddCart = ({item, carts}: {item: Item, carts:Cart[]}) => {
             
         });
 
+        // Update the inventory qty for the selected item.
         const editInvenResponse = await fetch('/api/inventory/edit', {
             method: 'POST',
             headers: {
@@ -36,6 +40,7 @@ const AddCart = ({item, carts}: {item: Item, carts:Cart[]}) => {
         const editInvenResult = await editInvenResponse.json()
         
         if(isExist == true){
+            // Update cart qty if the item already exist.
             const addCart = await fetch('/api/cart/edit', {
                 method: 'POST',
                 headers: {
@@ -48,6 +53,7 @@ const AddCart = ({item, carts}: {item: Item, carts:Cart[]}) => {
                 }),
             })
         }else{
+            // Add the item to the cart.
             const addCart = await fetch('/api/cart/add', {
                 method: 'POST',
                 headers: {
@@ -60,8 +66,7 @@ const AddCart = ({item, carts}: {item: Item, carts:Cart[]}) => {
             })
         }
         
-
-
+        // Reset the qty input field value.
         event.target.cartQty.value = null
    
 

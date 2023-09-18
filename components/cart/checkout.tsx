@@ -9,15 +9,15 @@ const Checkout = ({carts}: {carts:Cart[]}) => {
     const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
       event.preventDefault()
 
+      // Check if the cart is empty.
       if(carts.length < 1){
          alert("Cart is empty!")
          return false
       }else{
-
+         // Proceed to checkout.
          const checkout = await fetch('/api/transaction/checkout', {
                method: 'POST'
          })
-
          alert('Checkout success.')
          router.push('/transaction/')
       }

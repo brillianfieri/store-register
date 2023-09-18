@@ -15,13 +15,14 @@ const DeleteInventory = ({transaction}: {transaction: Transaction}) => {
 
    const deleteClicked = async (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault()
+      // Display a modal to confirm the action.
       setIsOpen(true)
    }
 
    const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
-      // Stop the form from submitting and refreshing the page.
       event.preventDefault()
 
+      // Delete the transaction.
       const response = await fetch('/api/transaction/delete', {
          method: 'POST',
          headers: {

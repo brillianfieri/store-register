@@ -25,6 +25,7 @@ const EditInventory = ({item, items}: {item: Item, items:Item[]}) => {
    const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
       event.preventDefault()
 
+      // Check if the modified name is not the same as the other items' name.
       let isNotUnique = items.find((itm, idx) => {
          if (itm.name.toLowerCase() == itemName.toLowerCase() && item.name.toLowerCase() != itemName.toLowerCase()) {
             return true;
@@ -32,10 +33,11 @@ const EditInventory = ({item, items}: {item: Item, items:Item[]}) => {
       });
 
       if(isNotUnique){
+         // The new item name is not unique.
          alert("The name is already exist!")
          return false
       }else{
-
+         // Update the item data.
          const response = await fetch('/api/inventory/edit', {
             method: 'POST',
             headers: {
