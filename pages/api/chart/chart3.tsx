@@ -20,17 +20,16 @@ export default async function handler(
                 and extract(month from transaction_date) = date_part('month', (SELECT current_date))
                 group by name) as a
             on item.name = a.name
+            where item.delete_item = false 
             order by data
             limit 5
         `
 
         const label = item.map(function(f: { label: [String]; }){return (f.label);});
-        console.log(label)
         const data = {
             label: 'Total Sold',
             data:item.map(function(f: { data: [number]; }){return (f.data);})
         }
-        console.log(data)
 
         const finalData= {
             labels: label,

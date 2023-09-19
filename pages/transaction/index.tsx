@@ -19,47 +19,52 @@ export default function inventoryPage({transactions}: InferGetServerSidePropsTyp
                 <Link href='/transaction/new-transaction' type="button"  className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add Transaction</Link>
             </div>
             
-
-            <div className=" p-5">
-                <div className="max-h-96 overflow-y-auto overflow-x-auto shadow-md sm:rounded-lg">
-                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead className="top-0 sticky text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr className="top-0 sticky">
-                                <th scope="col" className="top-0 sticky px-6 py-3">
-                                    Transaction ID
-                                </th>
-                                <th scope="col" className="top-0 sticky px-6 py-3">
-                                    Date
-                                </th>
-                                <th scope="col" className="top-0 sticky px-6 py-3">
-                                    Total Price
-                                </th>
-                                <th scope="col" className="top-0 sticky px-6 py-3">
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {transactions.map((transaction: any) =>(
-                                <tr key={transaction.id} onClick={()=>{setSelectedTransaction(transaction)}} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {transaction.id}
+            {transactions.length ?
+                <div className=" p-5">
+                    <div className="max-h-96 overflow-y-auto overflow-x-auto shadow-md sm:rounded-lg">
+                        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <thead className="top-0 sticky text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr className="top-0 sticky">
+                                    <th scope="col" className="top-0 sticky px-6 py-3">
+                                        Transaction ID
                                     </th>
-                                    <td className="px-6 py-4">
-                                        {transaction.transaction_date}
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        {transaction.total_price.toLocaleString()}
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <DeleteTransaction transaction={transaction}/>
-                                    </td>
+                                    <th scope="col" className="top-0 sticky px-6 py-3">
+                                        Date
+                                    </th>
+                                    <th scope="col" className="top-0 sticky px-6 py-3">
+                                        Total Price
+                                    </th>
+                                    <th scope="col" className="top-0 sticky px-6 py-3">
+                                        Action
+                                    </th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {transactions.map((transaction: any) =>(
+                                    <tr key={transaction.id} onClick={()=>{setSelectedTransaction(transaction)}} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {transaction.id}
+                                        </th>
+                                        <td className="px-6 py-4">
+                                            {transaction.transaction_date}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {transaction.total_price.toLocaleString()}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <DeleteTransaction transaction={transaction}/>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            :
+                <div className='flex items-center justify-center h-full pt-5'>
+                    <p className="text-xl text-gray-700 dark:text-gray-400">No Transaction</p>
+                </div>
+            }
             
             {selectedTransaction ? <TransactionDetail selectedTransaction = {selectedTransaction}/> : null}
             

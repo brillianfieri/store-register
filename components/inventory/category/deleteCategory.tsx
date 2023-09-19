@@ -32,7 +32,7 @@ const DeleteInventory = ({category}: {category: Category}) => {
        })
 
       const result = await response.json()
-      alert(category.name + ' deleted from the list.')
+      alert(category.name + ' has been removed from the list.')
       setIsOpen(false)
       router.push('/inventory/')
   }

@@ -1,5 +1,3 @@
-// popup -> https://www.tutorialspoint.com/how-to-add-popup-in-nextjs#:~:text=We%20can%20add%20a%20Popup,the%20design%20of%20our%20website.
-
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import Modal from 'react-modal'

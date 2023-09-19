@@ -43,3 +43,12 @@ export type Category={
     name: string;
     delete_category: boolean;
 }
+
+
+export type chartType = {
+    labels: string[],
+    datasets:[{
+      label: string,
+      data: number[]
+    }]
+  }

@@ -43,67 +43,73 @@ export default function inventoryPage({items, carts}: InferGetServerSidePropsTyp
                 </form>
             </div>
 
-
-            <div className={"px-5 pb-5 "}>
-                <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" className="px-6 py-3">
-                                    Item
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Category
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Price
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Qty
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Last Updated
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {items.filter((item) => {
-                                if(item.qty > 1){
-                                    if(search.toLowerCase() === ''){
-                                        return item;
-                                    }else if(item.name.toLowerCase().includes(search) || item.category.toLowerCase().includes(search)){
-                                        return item;
-                                    }
-                                }
-                            }).map((item: any) =>(
-                                <tr key={item.id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {item.name}
+            {items.length ? 
+                <div className={"px-5 pb-5 "}>
+                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" className="px-6 py-3">
+                                        Item
                                     </th>
-                                    <td className="px-6 py-4">
-                                        {item.category.name}
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        {item.price.toLocaleString()}
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        {item.qty.toLocaleString()}
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        {item.modified}
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <AddCart item = {item} carts ={carts}/>
-                                    </td>
+                                    <th scope="col" className="px-6 py-3">
+                                        Category
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        Price
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        Qty
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        Last Updated
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        Action
+                                    </th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {items.filter((item) => {
+                                    if(item.qty > 1){
+                                        if(search.toLowerCase() === ''){
+                                            return item;
+                                        }else if(item.name.toLowerCase().includes(search) || item.category.name.toLowerCase().includes(search)){
+                                            return item;
+                                        }
+                                    }
+                                }).map((item: any) =>(
+                                    <tr key={item.id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {item.name}
+                                        </th>
+                                        <td className="px-6 py-4">
+                                            {item.category.name}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {item.price.toLocaleString()}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {item.qty.toLocaleString()}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {item.modified}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <AddCart item = {item} carts ={carts}/>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>  
+            :
+                <div className='flex items-center justify-center h-full pt-5'>
+                    <p className="text-xl text-gray-700 dark:text-gray-400">No Item</p>
                 </div>
-            </div>
+            }
+            
 
             {carts.length > 0 ? (
                 <>

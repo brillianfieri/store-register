@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react';
 import 'chart.js/auto';
 import { Line } from "react-chartjs-2";
 import { defaults } from 'chart.js';
-import { PrismaClient } from "@prisma/client";
-import {InferGetServerSidePropsType } from "next";
-
 
 
 export default function chart1 () {
@@ -23,17 +20,15 @@ export default function chart1 () {
         darkMode = window.matchMedia("(prefers-color-scheme: dark)")
 
         if(darkMode != null){
-
           setColor(darkMode.matches)
 
-        const themeChanged = (e: any) => {
-          console.log(e.matches)
+          const themeChanged = (e: any) => {
             setColor(e.matches)
-            setReload(Math.random())
+            setReload((oldReload) => oldReload + 1)
           }
-        darkMode.addEventListener("change", themeChanged);
+          darkMode.addEventListener("change", themeChanged);
 
-        return () => darkMode!.removeEventListener("change", themeChanged); 
+          return () => darkMode!.removeEventListener("change", themeChanged); 
         }
 
     },[]);
@@ -50,8 +45,13 @@ export default function chart1 () {
     fetchChart();
   }, []);
   if(!chartData){
-    return (<div></div>)
+    return (
+      <div className='flex items-center justify-center h-full'>
+        <p className="text-xl text-gray-700 dark:text-gray-400">No Data</p>
+      </div>
+    )
   }else{
+    console.log(chartData)
     return (
         <Line key={reload}
           data = {chartData}

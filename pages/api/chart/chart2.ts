@@ -22,12 +22,11 @@ export default async function handler(
         `
 
         const label = item.map(function(f: { label: [String]; }){return (f.label);});
-        console.log(label)
         const data = {
             label: 'Total Sold',
             data:item.map(function(f: { data: [number]; }){return (f.data);})
         }
-        console.log(data)
+
 
         const finalData= {
             labels: label,

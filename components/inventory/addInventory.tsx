@@ -6,9 +6,6 @@ import {customStyles} from '../../styles/modal.css.js'
 
 const AddInventory = ({items, categories}: {items: Item[], categories:Category[]}) => {
    const router = useRouter()
-
-   console.log(categories)
-
    const [isOpen, setIsOpen] = useState(false)
 
    const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {

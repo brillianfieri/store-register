@@ -16,7 +16,7 @@ export default function chart0() {
     if(!chartData){
         return(
             <div>
-
+                <p className="text-8xl text-gray-700 dark:text-gray-400">{String(0)}</p>
             </div>
         )
     }else{
