@@ -44,26 +44,26 @@ export default function inventoryPage({items, categories}: InferGetServerSidePro
             {/* {alert(items)} */}
             {items.length ? 
                 <div className={"px-5 pb-5 overflow-y:auto"}>
-                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <div className="relative max-h-[65vh] overflow-y-auto overflow-x-auto shadow-md sm:rounded-lg">
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th scope="col" className="px-6 py-3">
+                            <thead className="top-0 sticky text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr className="top-0 sticky">
+                                    <th scope="top-0 sticky col" className="px-6 py-3">
                                         Item
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="top-0 sticky col" className="px-6 py-3">
                                         Category
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="top-0 sticky col" className="px-6 py-3">
                                         Price
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="top-0 sticky col" className="px-6 py-3">
                                         Qty
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="top-0 sticky col" className="px-6 py-3">
                                         Last Updated
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="top-0 sticky col" className="px-6 py-3">
                                         Action
                                     </th>
                                 </tr>
@@ -103,7 +103,7 @@ export default function inventoryPage({items, categories}: InferGetServerSidePro
                                         <td className="px-6 py-4">
                                             {item.modified}
                                         </td>
-                                        <td className="px-6 py-4">
+                                        <td className="px-6 py-4 md:flex">
                                             <EditInventory item = {item} items = {items} categories={categories}/>
                                             <DeleteInventory item = {item} />
                                         </td>

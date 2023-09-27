@@ -45,10 +45,10 @@ export default function inventoryPage({items, carts}: InferGetServerSidePropsTyp
 
             {items.length ? 
                 <div className={"px-5 pb-5 "}>
-                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <div className="max-h-[40vh] overflow-y-auto overflow-x-auto shadow-md sm:rounded-lg">
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
+                            <thead className="z-10 top-0 sticky text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr className="top-0 sticky">
                                     <th scope="col" className="px-6 py-3">
                                         Item
                                     </th>
@@ -115,10 +115,10 @@ export default function inventoryPage({items, carts}: InferGetServerSidePropsTyp
                 <>
                 <Checkout carts ={carts}/>
                 <div className={"px-5 pb-5"}>
-                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <div className="max-h-[40vh] overflow-y-auto overflow-x-auto shadow-md sm:rounded-lg">
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
+                            <thead className="z-10 top-0 sticky text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr className="top-0 sticky">
                                     <th scope="col" className="px-6 py-3">
                                         Item
                                     </th>

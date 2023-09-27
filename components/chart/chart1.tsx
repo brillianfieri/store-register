@@ -5,31 +5,31 @@ import { defaults } from 'chart.js';
 
 
 export default function chart1 () {
-    const [reload, setReload] = useState(0);
-    let darkMode: MediaQueryList | null = null
+  const [reload, setReload] = useState(0);
+  let darkMode: MediaQueryList | null = null
 
-    function setColor(isDark: Boolean){
-        if(isDark){
-            defaults.color = "rgb(255,255,255)";
-        }else{
-            defaults.color = "rgb(0,0,0)";
+  function setColor(isDark: Boolean){
+      if(isDark){
+          defaults.color = "rgb(255,255,255)";
+      }else{
+          defaults.color = "rgb(0,0,0)";
+      }
+  }
+  
+  useEffect(()=>{
+      darkMode = window.matchMedia("(prefers-color-scheme: dark)")
+
+      if(darkMode != null){
+        setColor(darkMode.matches)
+
+        const themeChanged = (e: any) => {
+          setColor(e.matches)
+          setReload((oldReload) => oldReload + 1)
         }
-    }
-    
-    useEffect(()=>{
-        darkMode = window.matchMedia("(prefers-color-scheme: dark)")
+        darkMode.addEventListener("change", themeChanged);
 
-        if(darkMode != null){
-          setColor(darkMode.matches)
-
-          const themeChanged = (e: any) => {
-            setColor(e.matches)
-            setReload((oldReload) => oldReload + 1)
-          }
-          darkMode.addEventListener("change", themeChanged);
-
-          return () => darkMode!.removeEventListener("change", themeChanged); 
-        }
+        return () => darkMode!.removeEventListener("change", themeChanged); 
+      }
 
     },[]);
 
