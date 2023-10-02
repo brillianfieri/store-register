@@ -1,11 +1,13 @@
 // Navbar & Footer layout: Flowbite
 
 // import { Collapse } from "flowbite";
+import { useSession, signOut } from "next-auth/react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 // import type { CollapseOptions, CollapseInterface } from "flowbite";
 
 export default function Layout({children}:{children:any}) {
+  const { data: session } = useSession()
   const [menu, setMenu] = useState(false)
 
   function menuClicked(){
@@ -38,14 +40,24 @@ export default function Layout({children}:{children:any}) {
           </button>
           <div id="navBarList" className="hidden w-full md:block md:w-auto">
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+              {session?.user?.role === "admin" ?
+                <li>
+                  <Link href="/" className="block py-2 pl-2 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Dashboard</Link>
+                </li> : null
+              }
               <li>
-                <Link href="/" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Dashboard</Link>
+                <Link href="/transaction/" className="block py-2 pl-2 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Transaction</Link>
               </li>
               <li>
-                <Link href="/transaction/" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Transaction</Link>
+                <Link href="/inventory/" className="block py-2 pl-2 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Inventory List</Link>
               </li>
+              {session?.user?.role === "admin" ?
+                <li>
+                  <Link href="/admin/" className="block py-2 pl-2 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Admin</Link>
+                </li> : null
+              }
               <li>
-                <Link href="/inventory/" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Inventory List</Link>
+                <Link href={""} onClick={() => signOut()} className="block py-2 pl-2 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" >Sign Out</Link>
               </li>
             </ul>
           </div>

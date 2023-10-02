@@ -1,77 +1,42 @@
 import { useRouter } from 'next/router'
 import {Item, Cart} from '../type'
+import Log from '../log/log'
 
 
 const AddCart = ({item, carts}: {item: Item, carts:Cart[]}) => {
    const router = useRouter()
-   let isExist = false;
-   let existCartItem: Cart;
     
     const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault()
-
-        // Get the new inventory qty for the selected item.
-        const newItemQty = item.qty-parseInt(event.target.cartQty.value)
         
-        // Check if the selected item is already in the cart.
-        carts.filter(function (carts_: any) {
-            if(item.id == carts_.item_id){
-                isExist = true;
-                existCartItem = carts_;
-            }
-            
-        });
-
-        // Update the inventory qty for the selected item.
-        const editInvenResponse = await fetch('/api/inventory/edit', {
+        const addCart = await fetch('/api/cart/add', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+            'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                id: item.id,
-                name: item.name,
-                category: item.category,
-                price: item.price,
-                qty: newItemQty
+                item_id: item.id,
+                qty: parseInt(event.target.cartQty.value)
             }),
         })
 
-        const editInvenResult = await editInvenResponse.json()
-        
-        if(isExist == true){
-            // Update cart qty if the item already exist.
-            const addCart = await fetch('/api/cart/edit', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    id: existCartItem.id,
-                    item_id: existCartItem.item_id,
-                    qty: parseInt(event.target.cartQty.value as string) + existCartItem.qty
-                }),
-            })
-        }else{
-            // Add the item to the cart.
-            const addCart = await fetch('/api/cart/add', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    item_id: item.id,
-                    qty: parseInt(event.target.cartQty.value)
-                }),
-            })
-        }
-        
-        // Reset the qty input field value.
-        event.target.cartQty.value = null
-   
+        const addCartMsg = await addCart.json()
 
-      alert(item.name + ' added to the cart.')
-      router.push('/transaction/new-transaction/')
+        // Error alert when the item has already been taken by another user.
+        if(addCartMsg.hasOwnProperty("error")){
+            alert("Error: the item has already been taken!")
+            router.push('/transaction/new-transaction/')
+        }else{
+
+            // Change log
+            Log(`added ${event.target.cartQty.value} ${item.name} to the cart.`)
+
+            // Reset the qty input field value.
+            event.target.cartQty.value = null
+
+            alert(item.name + ' added to the cart.')
+            router.push('/transaction/new-transaction/')
+        }
   }
 
    return (

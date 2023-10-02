@@ -6,6 +6,8 @@ import {InferGetServerSidePropsType } from "next";
 import Checkout from "@/components/cart/checkout";
 import DeleteCart from "@/components/cart/deleteCart";
 import Link from "next/link";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../api/auth/[...nextauth]"
 
 export default function inventoryPage({items, carts}: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [search, setSearch] = useState('');
@@ -47,7 +49,7 @@ export default function inventoryPage({items, carts}: InferGetServerSidePropsTyp
                 <div className={"px-5 pb-5 "}>
                     <div className="max-h-[40vh] overflow-y-auto overflow-x-auto shadow-md sm:rounded-lg">
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead className="z-10 top-0 sticky text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <thead className="z-1 top-0 sticky text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr className="top-0 sticky">
                                     <th scope="col" className="px-6 py-3">
                                         Item
@@ -71,7 +73,7 @@ export default function inventoryPage({items, carts}: InferGetServerSidePropsTyp
                             </thead>
                             <tbody>
                                 {items.filter((item) => {
-                                    if(item.qty > 1){
+                                    if(item.qty >= 1){
                                         if(search.toLowerCase() === ''){
                                             return item;
                                         }else if(item.name.toLowerCase().includes(search) || item.category.name.toLowerCase().includes(search)){
@@ -117,7 +119,7 @@ export default function inventoryPage({items, carts}: InferGetServerSidePropsTyp
                 <div className={"px-5 pb-5"}>
                     <div className="max-h-[40vh] overflow-y-auto overflow-x-auto shadow-md sm:rounded-lg">
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead className="z-10 top-0 sticky text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <thead className="z-1 top-0 sticky text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr className="top-0 sticky">
                                     <th scope="col" className="px-6 py-3">
                                         Item
@@ -167,7 +169,14 @@ export default function inventoryPage({items, carts}: InferGetServerSidePropsTyp
 
 const prisma = new PrismaClient();
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: any) {
+
+    const session = await getServerSession(
+        context.req,
+        context.res,
+        authOptions
+    )
+
     const items = await prisma.item.findMany({
         where:{
             delete_item: false
@@ -196,6 +205,8 @@ export async function getServerSideProps() {
                     price: true
                 }
             }
+        },where:{
+            user_id: session?.user?.user_id
         },orderBy:{
             id: "desc"
         }

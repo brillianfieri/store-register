@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Layout from '../../components/layout'
 import Link from "next/link";
 import { PrismaClient } from "@prisma/client";
 import {InferGetServerSidePropsType } from "next";
 import TransactionDetail from "@/components/transaction/transactionDetail";
 import DeleteTransaction from "@/components/transaction/deleteTransaction";
+import { useSession } from "next-auth/react";
 
 export default function inventoryPage({transactions}: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [selectedTransaction, setSelectedTransaction] = useState(null);
+    const { data: session } = useSession()
 
     return(
         <Layout>
@@ -29,14 +31,19 @@ export default function inventoryPage({transactions}: InferGetServerSidePropsTyp
                                         Transaction ID
                                     </th>
                                     <th scope="col" className="top-0 sticky px-6 py-3">
+                                        User
+                                    </th>
+                                    <th scope="col" className="top-0 sticky px-6 py-3">
                                         Date
                                     </th>
                                     <th scope="col" className="top-0 sticky px-6 py-3">
                                         Total Price
                                     </th>
-                                    <th scope="col" className="top-0 sticky px-6 py-3">
-                                        Action
-                                    </th>
+                                    {session?.user?.role === "admin" ?
+                                        <th scope="col" className="top-0 sticky px-6 py-3">
+                                            Action
+                                        </th> : null
+                                    }
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,14 +53,19 @@ export default function inventoryPage({transactions}: InferGetServerSidePropsTyp
                                             {transaction.id}
                                         </th>
                                         <td className="px-6 py-4">
+                                            {transaction.user.name}
+                                        </td>
+                                        <td className="px-6 py-4">
                                             {transaction.transaction_date}
                                         </td>
                                         <td className="px-6 py-4">
                                             {transaction.total_price.toLocaleString()}
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <DeleteTransaction transaction={transaction}/>
-                                        </td>
+                                        {session?.user?.role === "admin" ?
+                                            <td className="px-6 py-4">
+                                                <DeleteTransaction transaction={transaction}/>
+                                            </td>: null
+                                        }
                                     </tr>
                                 ))}
                             </tbody>
@@ -86,6 +98,11 @@ export async function getServerSideProps() {
                             price: true,
                         }
                     }
+                }
+            },
+            user:{
+                select:{
+                    name:true
                 }
             }
         }

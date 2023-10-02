@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Modal from 'react-modal'
 import {Transaction} from '../type'
 import {customStyles} from '../../styles/modal.css.js'
+import Log from '../log/log'
 
 const DeleteInventory = ({transaction}: {transaction: Transaction}) => {
 
@@ -30,8 +31,10 @@ const DeleteInventory = ({transaction}: {transaction: Transaction}) => {
             id: transaction.id
          }),
        })
-   
-      const result = await response.json()
+
+       // Change log
+      Log(`removed transaction #${transaction.id} from the list.`)
+
       alert('The transaction has been removed from the list.')
       setIsOpen(false)
       router.push('/transaction/')
@@ -46,43 +49,48 @@ const DeleteInventory = ({transaction}: {transaction: Transaction}) => {
 
          <Modal isOpen={isOpen} onRequestClose={() => setIsOpen(false)} style={customStyles}>
             <form onSubmit={handleSubmit} className='p-5 bg-white dark:bg-gray-900'>
-               <div>
-                  <h2 className='text-xl font-bold dark:text-white pb-5'>
-                     Delete this transaction?
-                  </h2>
+               <div className='flex flex-direction-row content-center justify-center'>
+                  <div>
+                     <div>
+                        <h2 className='text-xl font-bold dark:text-white pb-5'>
+                           Delete this transaction?
+                        </h2>
 
-                  <div className='text-lg dark:text-white'>
-                     <text className='font-bold'>
-                        Transaction date: &nbsp;
-                     </text>
-                     <text>
-                        {String(transaction.transaction_date)}
-                     </text>
-                  </div>
+                        <div className='text-lg dark:text-white'>
+                           <text className='font-bold'>
+                              Transaction date: &nbsp;
+                           </text>
+                           <text>
+                              {String(transaction.transaction_date)}
+                           </text>
+                        </div>
 
-                  <div className='text-lg dark:text-white'>
-                     <text className='font-bold'>
-                        Total price: &nbsp;
-                     </text>
-                     <text>
-                        {transaction.total_price}
-                     </text>
-                  </div>
+                        <div className='text-lg dark:text-white'>
+                           <text className='font-bold'>
+                              Total price: &nbsp;
+                           </text>
+                           <text>
+                              {transaction.total_price}
+                           </text>
+                        </div>
 
-               </div>
-               
-               <div>
-                  <h3 className='text-lg font-bold dark:text-white pt-5'>
-                     Item list:
-                  </h3>
-               </div>
-
-               <div>
-                  {transaction.transaction_details.map((detail: any) =>(
-                     <div className='text-lg dark:text-white'>
-                        {detail.item.name} ({detail.qty}) 
                      </div>
-                  ))}
+                     
+                     <div>
+                        <h3 className='text-lg font-bold dark:text-white pt-5'>
+                           Item list:
+                        </h3>
+                     </div>
+
+                     <div>
+                        {transaction.transaction_details.map((detail: any) =>(
+                           <div className='text-lg dark:text-white'>
+                              {detail.item.name} ({detail.qty}) 
+                           </div>
+                        ))}
+                     </div>
+
+                  </div>
                </div>
                
                <div className='pt-5 flex flex-direction-row content-center justify-center'>

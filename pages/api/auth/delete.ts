@@ -13,12 +13,16 @@ export default async function handler(
         if(token && token?.role == 'admin'){
             const { body: data } = req;
 
-            const deleteTransaction = await prisma.transaction.delete({
+            const newUser = await prisma.user.update({
                 where:{
                     id: data.id
-                }
+                    
+                },
+                data: {
+                    delete_user: true
+                },
             })
-            return res.status(200).send(deleteTransaction);
+            return res.status(200).send(newUser);
 
         }else{
             return res.status(401).send({ error: 'Unauthorized' })

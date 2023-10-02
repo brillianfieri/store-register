@@ -2,6 +2,7 @@
 import router from 'next/router'
 import {Category} from '../../type'
 import React, { useState } from 'react'
+import Log from '@/components/log/log'
 
 
 const EditCategory = ({category, categories}: {category: Category, categories:Category[]}) => {
@@ -38,6 +39,9 @@ const EditCategory = ({category, categories}: {category: Category, categories:Ca
            })
  
           const result = await response.json()
+
+          // Change log
+          Log(`modified category name from ${category.name} to ${categoryName}.`)
  
           alert('Edit success!')
           router.push('/inventory/')

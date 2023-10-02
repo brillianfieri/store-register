@@ -1,3 +1,10 @@
+export type User = {
+    id:number,
+    name:string,
+    username:string,
+    role:string,
+}
+
 export type Cart = {
     id: number;
     item_id: number;
@@ -33,6 +40,9 @@ export type Transaction={
         item:{
             name: string;
             price: number;
+        };
+        user:{
+            name: string;
         }
     }[]
 
@@ -44,6 +54,15 @@ export type Category={
     delete_category: boolean;
 }
 
+export type Log={
+    user: {
+        username: string;
+    },
+    id: number;
+    log_date: Date;
+    user_id: number;
+    message: string;
+}
 
 export type chartType = {
     labels: string[],

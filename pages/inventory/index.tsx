@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Layout from '../../components/layout'
 import AddInventory from '../../components/inventory/addInventory'
 import EditInventory from '../../components/inventory/editInventory'
@@ -6,9 +6,12 @@ import DeleteInventory from "@/components/inventory/deleteInventory";
 import IndexCategory from '../../components/inventory/category'
 import { PrismaClient } from "@prisma/client";
 import {InferGetServerSidePropsType } from "next";
+import { useSession } from "next-auth/react";
 
 export default function inventoryPage({items, categories}: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [search, setSearch] = useState('')
+
+    const { data: session } = useSession()
 
     const onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value)
@@ -23,8 +26,10 @@ export default function inventoryPage({items, categories}: InferGetServerSidePro
             </div>
 
             <div className="px-5 pt-1.5 flex justify">
-                <AddInventory items = {items} categories = {categories}/>
-                <IndexCategory categories={categories}/>
+                {session?.user?.role === "admin" ?
+                    <><AddInventory items = {items} categories = {categories}/>
+                    <IndexCategory categories={categories}/></>: null
+                }
             </div>
 
             <div className={"pt-1 px-5 pb-2"}>
@@ -63,9 +68,11 @@ export default function inventoryPage({items, categories}: InferGetServerSidePro
                                     <th scope="top-0 sticky col" className="px-6 py-3">
                                         Last Updated
                                     </th>
-                                    <th scope="top-0 sticky col" className="px-6 py-3">
-                                        Action
-                                    </th>
+                                    {session?.user?.role === "admin" ?
+                                        <th scope="top-0 sticky col" className="px-6 py-3">
+                                            Action
+                                        </th> : null
+                                    }
                                 </tr>
                             </thead>
                             <tbody>
@@ -103,10 +110,12 @@ export default function inventoryPage({items, categories}: InferGetServerSidePro
                                         <td className="px-6 py-4">
                                             {item.modified}
                                         </td>
-                                        <td className="px-6 py-4 md:flex">
-                                            <EditInventory item = {item} items = {items} categories={categories}/>
-                                            <DeleteInventory item = {item} />
-                                        </td>
+                                        {session?.user?.role === "admin" ?
+                                            <td className="px-6 py-4 md:flex">
+                                                <EditInventory item = {item} items = {items} categories={categories}/>
+                                                <DeleteInventory item = {item} />
+                                            </td> : null
+                                        }
                                     </tr>
                                 )})}
                             </tbody>

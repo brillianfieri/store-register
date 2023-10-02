@@ -10,6 +10,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User{
+    id Int @id @default(autoincrement())
+    name String @db.VarChar(255)
+    username String @db.VarChar(255) @unique
+    password String @db.VarChar(255) 
+    role String @db.VarChar(255) 
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    delete_user Boolean @db.Boolean @default(false)
+    refresh_token      String?  @db.Text
+    access_token       String?  @db.Text
+    expires_at         Int?
+    token_type         String?
+    scope              String?
+    id_token           String?  @db.Text
+    session_state      String?
+    
+    transactions transaction[]
+    carts cart[]
+    logs log[]
+}
+
 
 model item{
   id Int @id @default(autoincrement())
@@ -29,6 +51,8 @@ model transaction{
   id Int @id @default(autoincrement())
   transaction_date DateTime @db.Timestamp()
   total_price Int @db.Integer
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id Int @db.Integer
 
   transaction_details transaction_detail[]
 }
@@ -50,6 +74,8 @@ model cart{
   id Int @id @default(autoincrement())
   item item @relation(fields: [item_id], references: [id], onDelete: Cascade)
   item_id Int @db.Integer
+  user User @relation(fields: [user_id], references: [id], onDelete:Cascade)
+  user_id Int @db.Integer
 
   qty Int @db.Integer
 }
@@ -61,4 +87,12 @@ model category{
 
   items item[]
 
+}
+
+model log{
+  id Int @id @default(autoincrement())
+  log_date DateTime @db.Timestamp()
+  user User @relation(fields: [user_id], references: [id], onDelete:Cascade)
+  user_id Int @db.Integer
+  message String @db.VarChar(255)
 }

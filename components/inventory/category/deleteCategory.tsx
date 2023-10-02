@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Modal from 'react-modal'
 import {Category} from '../../type'
 import {customStyles} from '../../../styles/modal.css.js'
+import Log from '../../log/log'
 
 const DeleteInventory = ({category}: {category: Category}) => {
 
@@ -32,6 +33,10 @@ const DeleteInventory = ({category}: {category: Category}) => {
        })
 
       const result = await response.json()
+
+      // Change log
+      Log(`removed ${category.name} from the category list.`)
+
       alert(category.name + ' has been removed from the list.')
       setIsOpen(false)
       router.push('/inventory/')

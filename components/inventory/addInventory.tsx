@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Modal from 'react-modal'
 import {Item, Category} from '../type'
 import {customStyles} from '../../styles/modal.css.js'
+import Log from '../log/log'
 
 const AddInventory = ({items, categories}: {items: Item[], categories:Category[]}) => {
    const router = useRouter()
@@ -38,6 +39,9 @@ const AddInventory = ({items, categories}: {items: Item[], categories:Category[]
             })
 
          const result = await response.json()
+
+         // Change log
+         Log(`added ${event.target.floating_name.value} to the inventory list.`)
    
          alert(event.target.floating_name.value+ ' added to the inventory list.')
          setIsOpen(false)

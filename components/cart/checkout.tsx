@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import {Item, Cart} from '../type'
+import Log from '../log/log'
 
 
 const Checkout = ({carts}: {carts:Cart[]}) => {
@@ -18,6 +19,12 @@ const Checkout = ({carts}: {carts:Cart[]}) => {
          const checkout = await fetch('/api/transaction/checkout', {
                method: 'POST'
          })
+
+         const checkoutRes = await checkout.json()
+
+         // Change log
+         Log(`checkout the cart and created transaction #${checkoutRes.id}.`)
+
          alert('Checkout success.')
          router.push('/transaction/')
       }

@@ -10,18 +10,20 @@ export default async function handler(
     const prisma = new PrismaClient();
     if(req.method === 'POST'){
         const token = await getToken({ req })
-        if(token && token?.role == 'admin'){
+        if(token){
             const { body: data } = req;
-
-            const deleteTransaction = await prisma.transaction.delete({
-                where:{
-                    id: data.id
+            const newLog = await prisma.log.create({
+                data:{
+                    log_date: new Date(),
+                    user_id: token?.user_id as number,
+                    message: data.message
                 }
             })
-            return res.status(200).send(deleteTransaction);
-
+            
+            res.status(200).send(newLog);
         }else{
             return res.status(401).send({ error: 'Unauthorized' })
         }
+        
     }
-} 
+}

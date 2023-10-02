@@ -8,20 +8,14 @@ export default async function handler(
     res: NextApiResponse
 ) {
     const prisma = new PrismaClient();
-    if(req.method === 'POST'){
+    if(req.method === 'GET'){
         const token = await getToken({ req })
         if(token && token?.role == 'admin'){
-            const { body: data } = req;
-
-            const deleteTransaction = await prisma.transaction.delete({
-                where:{
-                    id: data.id
-                }
-            })
-            return res.status(200).send(deleteTransaction);
-
+            const newLog = await prisma.log.findMany();
+        
+            res.status(200).send(newLog);
         }else{
             return res.status(401).send({ error: 'Unauthorized' })
         }
     }
-} 
+}

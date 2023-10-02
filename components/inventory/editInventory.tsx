@@ -3,11 +3,13 @@ import React, { useState } from 'react'
 import Modal from 'react-modal'
 import {Category, Item} from '../type'
 import {customStyles} from '../../styles/modal.css.js'
+import Log from '../log/log'
 
 const EditInventory = ({item, items, categories}: {item: Item, items:Item[], categories:Category[]}) => {
    const [itemId, setItemId] = useState(item.id)
    const [itemName, setItemName] = useState(item.name)
    const [itemCategory, setItemCategory] = useState(item.category.id)
+   const [itemCategoryName, setItemCategoryName] = useState(item.category.name)
    const [itemPrice, setItemPrice] = useState(item.price)
    const [itemQty, setItemQty] = useState(item.qty)
 
@@ -51,6 +53,21 @@ const EditInventory = ({item, items, categories}: {item: Item, items:Item[], cat
 
          const result = await response.json()
 
+         // Change log
+         if(itemName != item.name){
+            Log(`modified ${item.name}'s name to ${itemName}.`)
+         }
+         if(item.category.id != itemCategory){
+            Log(`modified ${item.name}'s category from ${item.category.name} to ${itemCategoryName}.`)
+         }
+         if(itemPrice != item.price){
+            Log(`modified item price from ${item.price} to ${itemPrice}.`)
+         }
+         if(itemQty != item.qty){
+            Log(`modified item qty from ${item.qty} to ${itemQty}.`)
+         }
+         
+
          alert('Edit success!')
          setIsOpen(false)
          router.push('/inventory/')
@@ -75,9 +92,9 @@ const EditInventory = ({item, items, categories}: {item: Item, items:Item[], cat
 
                 <div className="pb-4">
                     <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select category</label>
-                    <select id="category" value={itemCategory}  onChange={(e) => setItemCategory(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select id="category" value={itemCategory}  onChange={(e) => {setItemCategory(e.target.value); setItemCategoryName(e.target.options[e.target.selectedIndex].dataset.name)}}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     {categories.map((category: any) =>(
-                        <option value={category.id}>{category.name}</option>
+                        <option data-name={category.name} value={category.id}>{category.name}</option>
                      ))}
                     </select>
                 </div>

@@ -51,7 +51,6 @@ export default function chart1 () {
       </div>
     )
   }else{
-    console.log(chartData)
     return (
         <Line key={reload}
           data = {chartData}
