@@ -8,11 +8,7 @@ export default withAuth(req => {
       return NextResponse.redirect(new URL('/transaction', req.url));
     }
   }
-  // if ( req.nextUrl.pathname.startsWith('/premium') ) {
-  //   if (req.nextauth.token.userRole !== 'Premium') {
-  //     return NextResponse.redirect(new URL('/dashboard', req.url));
-  //   }
-  // }
+  
 });
 
 export const config = {

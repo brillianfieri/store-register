@@ -6,8 +6,9 @@ import {InferGetServerSidePropsType } from "next";
 import TransactionDetail from "@/components/transaction/transactionDetail";
 import DeleteTransaction from "@/components/transaction/deleteTransaction";
 import { useSession } from "next-auth/react";
+import NoSSR from 'react-no-ssr';
 
-export default function inventoryPage({transactions}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function TransactionPage({transactions}: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     const { data: session } = useSession()
 
@@ -53,13 +54,13 @@ export default function inventoryPage({transactions}: InferGetServerSidePropsTyp
                                             {transaction.id}
                                         </th>
                                         <td className="px-6 py-4">
-                                            {transaction.user.name}
+                                            {transaction.user.username}
                                         </td>
                                         <td className="px-6 py-4">
-                                            {transaction.transaction_date}
+                                            <NoSSR>{new Date(transaction.transaction_date).toLocaleString()}</NoSSR>
                                         </td>
                                         <td className="px-6 py-4">
-                                            {transaction.total_price.toLocaleString()}
+                                            <NoSSR>{transaction.total_price.toLocaleString()}</NoSSR>
                                         </td>
                                         {session?.user?.role === "admin" ?
                                             <td className="px-6 py-4">
@@ -102,7 +103,8 @@ export async function getServerSideProps() {
             },
             user:{
                 select:{
-                    name:true
+                    name:true,
+                    username:true
                 }
             }
         }
@@ -111,14 +113,9 @@ export async function getServerSideProps() {
         }
     });
 
-    transactions.map((transaction) => {
-        // item.modified.get
-        transaction.transaction_date = transaction.transaction_date.toLocaleString();
-    });
-
     return {
         props: {
-            transactions: transactions,
+            transactions: JSON.parse(JSON.stringify(transactions))
         },
     };
 }

@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import Layout from '../../components/layout'
-import AddUser from "@/components/user/addUser";
-import DeleteUser from "@/components/user/deleteUser";
-import EditUser from "@/components/user/editUser";
+import NoSSR from 'react-no-ssr';
 import { Log } from "../type";
 
 export default function DisplayLog({logs}: {logs:Log[]}) {
@@ -58,7 +55,7 @@ export default function DisplayLog({logs}: {logs:Log[]}) {
                                 }).map((log: any) =>(
                                     <tr key={log.id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {log.log_date}
+                                            <NoSSR>{new Date(log.log_date).toLocaleString()}</NoSSR>
                                         </th>
                                         <td className="px-6 py-4">
                                             {log.user.username}

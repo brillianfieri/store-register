@@ -1,10 +1,6 @@
-// Navbar & Footer layout: Flowbite
-
-// import { Collapse } from "flowbite";
 import { useSession, signOut } from "next-auth/react"
 import Link from "next/link"
-import { useEffect, useState } from "react"
-// import type { CollapseOptions, CollapseInterface } from "flowbite";
+import { useState } from "react"
 
 export default function Layout({children}:{children:any}) {
   const { data: session } = useSession()
@@ -29,9 +25,9 @@ export default function Layout({children}:{children:any}) {
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
         <div className="flex flex-wrap items-center justify-between mx-auto px-6 py-4">
-          <a href="/" className="flex items-center">
+          <Link href="/" className="flex items-center">
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Store Register</span>
-          </a>
+          </Link>
           <button data-collapse-toggle="navbar-default" type="button" onClick={()=>{menuClicked()}} className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" >
               <span className="sr-only">Open main menu</span>
               <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">

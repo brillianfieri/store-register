@@ -5,7 +5,7 @@ import { defaults } from 'chart.js';
 import {chartType} from '../type'
 
 
-export default function chart3 () {
+export default function Chart4 () {
   const [reload, setReload] = useState(0);
   let darkMode: MediaQueryList | null = null
 

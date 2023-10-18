@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 
 
-export default function chart0() {
-    const [chartData, setChartData] = useState('')
+export default function Chart0() {
+    const [chartData, setChartData] = useState<string|null>(null)
 
     useEffect(() => { 
-        async function fetchChart() {
-            const res = await fetch('/api/chart/chart0');
-            const data = await res.json();
-            setChartData(data[0].total);
-        }
         fetchChart();
       }, []);
+
+    async function fetchChart() {
+        const res = await fetch('/api/chart/chart0');
+        const data = await res.json();
+        setChartData(data[0].total);
+    }
 
     if(!chartData){
         return(

@@ -4,7 +4,7 @@ import { Line } from "react-chartjs-2";
 import { defaults } from 'chart.js';
 
 
-export default function chart1 () {
+export default function Chart1 () {
   const [reload, setReload] = useState(0);
   let darkMode: MediaQueryList | null = null
 

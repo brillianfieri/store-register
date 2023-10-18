@@ -6,6 +6,7 @@ const TransactionDetail = ({selectedTransaction}: {selectedTransaction: Transact
    return (
         
         <div className={"px-5 pb-5"}>
+            <div className="text-xl font-bold dark:text-white">Transaction #{selectedTransaction.id}</div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -36,6 +37,16 @@ const TransactionDetail = ({selectedTransaction}: {selectedTransaction: Transact
                             </tr>
                         ))}
                     </tbody>
+                    <tfoot>
+                        <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <b>Total</b>
+                                </th>
+                                <td colSpan={2} className="px-6 py-4"> 
+                                    <b>{selectedTransaction.total_price}</b>
+                                </td>
+                            </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>

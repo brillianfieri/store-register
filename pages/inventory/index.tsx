@@ -8,7 +8,7 @@ import { PrismaClient } from "@prisma/client";
 import {InferGetServerSidePropsType } from "next";
 import { useSession } from "next-auth/react";
 
-export default function inventoryPage({items, categories}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function InventoryPage({items, categories}: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [search, setSearch] = useState('')
 
     const { data: session } = useSession()
@@ -108,7 +108,7 @@ export default function inventoryPage({items, categories}: InferGetServerSidePro
                                             {item.qty.toLocaleString()}
                                         </td>
                                         <td className="px-6 py-4">
-                                            {item.modified}
+                                            {new Date(item.modified).toLocaleString()}
                                         </td>
                                         {session?.user?.role === "admin" ?
                                             <td className="px-6 py-4 md:flex">
@@ -161,15 +161,9 @@ export async function getServerSideProps() {
         }
     });
 
-
-    items.map((item) => {
-        // item.modified.get
-        item.modified = String(item.modified.toLocaleString());
-    });
-
     return {
         props: {
-        items: items,
+        items: JSON.parse(JSON.stringify(items)),
         categories: categories,
         },
     };

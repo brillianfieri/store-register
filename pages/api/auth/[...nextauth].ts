@@ -38,17 +38,19 @@ export const authOptions: NextAuthOptions = {
                 return{
                   user_id: user.id,
                   username: user.username,
+                  name: user.name,
                   role: user.role,
                   delete_user: user.delete_user
-                }
+                } as any
             }
           } else {
             return null
           }
         }
       })
-  ],
-    callbacks: {
+  ],pages: {
+      signIn: '/user'}
+    ,callbacks: {
         async signIn({ user }) {
           if (user?.delete_user == true) {
             return '/unauthorized'
@@ -69,15 +71,12 @@ export const authOptions: NextAuthOptions = {
             return token
          },
          async session({session, token}) {
-          session.user.user_id = token.user_id
-          session.user.username = token.username
-          session.user.role = token.role
+          session.user.user_id = token.user_id as number
+          session.user.username = token.username as string
+          session.user.role = token.role as string
           return session
         }
     },
-
-  // A database is optional, but required to persist accounts in a database
-  database: process.env.DATABASE_URL,
 }
 
 export default NextAuth(authOptions);

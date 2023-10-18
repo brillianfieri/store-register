@@ -45,9 +45,9 @@ const EditInventory = ({item, items, categories}: {item: Item, items:Item[], cat
             body: JSON.stringify({
              id: itemId,
              name: itemName,
-             category_id: parseInt(itemCategory),
-             price: parseInt(itemPrice),
-             qty: parseInt(itemQty)
+             category_id: parseInt(itemCategory.toString()),
+             price: parseInt(itemPrice.toString()),
+             qty: parseInt(itemQty.toString())
           }),
           })
 
@@ -92,9 +92,9 @@ const EditInventory = ({item, items, categories}: {item: Item, items:Item[], cat
 
                 <div className="pb-4">
                     <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select category</label>
-                    <select id="category" value={itemCategory}  onChange={(e) => {setItemCategory(e.target.value); setItemCategoryName(e.target.options[e.target.selectedIndex].dataset.name)}}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select id="category" value={itemCategory}  onChange={(e) => {setItemCategory(parseInt(e.target.value)); setItemCategoryName(e.target.options[e.target.selectedIndex].dataset.name as string)}}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     {categories.map((category: any) =>(
-                        <option data-name={category.name} value={category.id}>{category.name}</option>
+                        <option key={category.id} data-name={category.name} value={category.id}>{category.name}</option>
                      ))}
                     </select>
                 </div>

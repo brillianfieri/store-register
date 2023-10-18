@@ -9,7 +9,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]"
 
-export default function inventoryPage({items, carts}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function NewTransactionPage({items, carts}: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [search, setSearch] = useState('');
 
     const onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,15 +64,12 @@ export default function inventoryPage({items, carts}: InferGetServerSidePropsTyp
                                         Qty
                                     </th>
                                     <th scope="col" className="px-6 py-3">
-                                        Last Updated
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
                                         Action
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {items.filter((item) => {
+                                {items.filter((item:any) => {
                                     if(item.qty >= 1){
                                         if(search.toLowerCase() === ''){
                                             return item;
@@ -93,9 +90,6 @@ export default function inventoryPage({items, carts}: InferGetServerSidePropsTyp
                                         </td>
                                         <td className="px-6 py-4">
                                             {item.qty.toLocaleString()}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            {item.modified}
                                         </td>
                                         <td className="px-6 py-4">
                                             <AddCart item = {item} carts ={carts}/>
@@ -192,11 +186,6 @@ export async function getServerSideProps(context: any) {
         }
     });
 
-    items.map((item) => {
-        // item.modified.get
-        item.modified = item.modified.toLocaleString();
-    });
-
     const carts = await prisma.cart.findMany({
         include:{
             item:{
@@ -213,13 +202,12 @@ export async function getServerSideProps(context: any) {
     });
 
     carts.map((cart) => {
-        // item.modified.get
         cart.item.price = cart.item.price * cart.qty;
     });
 
     return {
         props: {
-        items: items,
+        items: JSON.parse(JSON.stringify(items)),
         carts: carts,
         },
     };

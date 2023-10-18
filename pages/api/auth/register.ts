@@ -12,7 +12,8 @@ export default async function handler(
         const { body: data } = req;
 
         const token = await getToken({ req })
-        if(token && token?.role == 'admin'){
+        const countUser = await prisma.user.count()
+        if(token && token?.role == 'admin' || countUser == 0){
             const checkForUnique = await prisma.user.findUnique({
                 where:{
                     username: data.username
